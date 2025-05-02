@@ -1,0 +1,88 @@
+﻿@page "/login"
+@using Devella.API.Interfaces
+@using Devella.API.Services
+@using Devella.DataAccessLayer.DTOs.UserAccess
+@using Devella.DataAccessLayer.Models
+@using Devella.Interfaces
+@using Devella.Providers
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+@inject IAuthProvider AuthProvider
+
+<PageTitle>Log In</PageTitle>
+
+<section>
+        <h1>Log in</h1>
+    <div class="row">
+        <div class="col-sm">
+            <StatusMessage Message="@errorMessage" />
+            <EditForm Model="@LoginModel" method="post" OnValidSubmit="LoginUser" FormName="login">
+                <DataAnnotationsValidator />
+                <hr />
+                <ValidationSummary class="text-danger" role="alert" />
+                <div class="form-floating mb-3">
+                    <InputText id="email" type="email" @bind-Value="LoginModel.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label for="email" class="form-label">Email</label>
+                    <ValidationMessage For="() => LoginModel.Email" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText id="password" type="password" @bind-Value="LoginModel.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label for="password" class="form-label">Password</label>
+                    <ValidationMessage For="() => LoginModel.Password" class="text-danger" />
+                </div>
+                <div class="btn-login-container">
+                    <button type="submit" class="btn-login">Log in</button>
+                </div>
+                <div class="pt-4">
+                    <p>
+                        <a href="Account/ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
+                    </p>
+                    <p>
+                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</section>
+
+@code {
+    private string? errorMessage;
+
+    private LoginModel LoginModel = new();
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    public async Task LoginUser()
+    {
+        errorMessage = null;
+
+        var response = await AuthProvider.PostAsync<LoginResponseDTO, LoginModel>("api/auth/login", LoginModel);
+        if (response != null && response.Token != null)
+        {
+            await ((CustomAuthStateProvider)AuthStateProvider).MarkUserAsLoggedIn(response.Token);
+
+            var roles = AuthService.GetUserRolesFromToken(response.Token);
+
+            if (roles.Contains("Consult") || roles.Contains("Admin"))
+            {
+                NavigationManager.NavigateTo("/consult");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            NavigationManager.NavigateTo("/consult");
+        }
+        else
+        {
+            errorMessage = "Invalid login attempt.";
+        }
+    }
+}
