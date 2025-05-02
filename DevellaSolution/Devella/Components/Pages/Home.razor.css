@@ -1,0 +1,12 @@
+﻿.home-title-wrapper {
+    margin-top: 3rem;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-positioned {
+    display: flex;
+    position: relative;
+    align-content: flex-end;
+}
