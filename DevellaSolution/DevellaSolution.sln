@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devella.API", "Devella.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devella.DataAccessLayer", "Devella.DataAccessLayer\Devella.DataAccessLayer.csproj", "{C4791610-A29F-4ADC-97C6-8F4C740D6A68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevellaLib", "DevellaLib\DevellaLib.csproj", "{490CCF48-0BCD-4F3A-924D-7592C7C44A8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C4791610-A29F-4ADC-97C6-8F4C740D6A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4791610-A29F-4ADC-97C6-8F4C740D6A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4791610-A29F-4ADC-97C6-8F4C740D6A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490CCF48-0BCD-4F3A-924D-7592C7C44A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490CCF48-0BCD-4F3A-924D-7592C7C44A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490CCF48-0BCD-4F3A-924D-7592C7C44A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490CCF48-0BCD-4F3A-924D-7592C7C44A8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
