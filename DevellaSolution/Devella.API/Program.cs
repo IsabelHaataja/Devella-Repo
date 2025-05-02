@@ -1,4 +1,7 @@
+using Devella.DataAccessLayer.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -20,6 +23,12 @@ builder.Services.AddControllers();
 // read connection string from environment variables or use appsettings.json
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] ??
                        builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // read JWT settings from environment variables or use appsettings.json
 var jwtKey = builder.Configuration["JwtSettings:Key"];
@@ -45,7 +54,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidIssuer = jwtIssuer,
         ValidAudience = jwtAudience,
-        ClockSkew = TimeSpan.Zero,
+        ClockSkew = TimeSpan.FromMinutes(5),
         RoleClaimType = ClaimTypes.Role
     };
 });
@@ -99,7 +108,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Devella API v1"));
@@ -109,6 +118,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
