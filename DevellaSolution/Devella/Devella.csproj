@@ -15,9 +15,4 @@
     <ProjectReference Include="..\DevellaLib\DevellaLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\fontAwesome\css\" />
-    <Folder Include="wwwroot\fontAwesome\webfonts\" />
-  </ItemGroup>
-
 </Project>
