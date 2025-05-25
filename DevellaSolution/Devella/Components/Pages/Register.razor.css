@@ -1,0 +1,16 @@
+﻿
+.registration-container {
+    margin-top: 3rem;
+}
+
+.registrer-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.registration-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}

@@ -1,0 +1,115 @@
+﻿@using Devella.Components.Layout.LoggedIn
+@using Devella.Components.Pages.LoggedIn.DevAccount
+@using Devella.DataAccessLayer.DTOs.UserAccess
+@using Devella.Interfaces
+@using DevellaLib.Helpers
+@inject IDeveloperProvider DeveloperProvider
+@layout AuthenticatedLayout
+@page "/account-info"
+<PageTitle>Account Info</PageTitle>
+
+
+<section id="account-info-dev">
+    <div class="right-column">
+        <h3> Din Profil Information</h3>
+        @if (user != null)
+        {
+            <div>
+                <h4>@user.FirstName @user.Surname</h4>
+            </div>
+
+            <div>
+                <label>Om @user.FirstName</label>
+                @if (user.Description != null)
+                {
+                    <div>
+                        <p>@user.Description</p>
+                    </div>
+                }
+                else
+                {
+                    <p><em>Ingen information om användaren tillgänglig.</em></p>
+                }
+            </div>
+
+            <div>
+                <p> Har @user.Experience års erfarenhet</p>
+            </div>
+
+            <div>
+                <label><strong>Färdigheter</strong></label>
+                @if (user.Competence != null)
+                {
+                    @foreach (var comp in user.Competence.Qualifications)
+                    {
+                        <p>@EnumHelper.GetDisplayName(comp)</p>
+                    }
+                    @foreach (var area in user.Competence.CompetenceAreas)
+                    {
+                        <p>@EnumHelper.GetDisplayName(area)</p>
+                    }
+                    @foreach (var lang in user.Competence.ProgrammingLanguages)
+                    {
+                        <p>@EnumHelper.GetDisplayName(lang)</p>
+                    }
+                    @foreach (var level in user.Competence.CompetenceLevel)
+                    {
+                        <p>@EnumHelper.GetDisplayName(level)</p>
+                    }
+
+                }
+                else
+                {
+                    <p><em>Ingen information om färdigheter tillgänglig.</em></p>
+                }
+            </div>
+
+            <div>
+                <label><strong>@user.FirstName söker</strong></label>
+                <p>@user.WantedPosition</p>
+            </div>
+        }
+        else
+        {
+            <p><em>Kunde inte hämta användarinfo..</em></p>
+        }
+
+        <div>
+            <button class="btn-primary-theme" @onclick="ToggleUpdateForm">Redigera <i class="fa-solid fa-pen"></i></button>
+        </div>
+    </div>
+
+    @if (showUpdateForm)
+    {
+        <div class="left-column">
+            <UpdateDevAccountInfo OnClose="CloseUpdateForm" OnCreated="HandleUpdatedProfile" />
+        </div>
+
+    }
+</section>
+
+@code {
+    private DeveloperProfileDTO? user;
+    private bool showUpdateForm = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await DeveloperProvider.GetProfileAsync();
+    }
+
+    public async Task ToggleUpdateForm()
+    {
+        showUpdateForm = true;
+    }
+
+    public void CloseUpdateForm()
+    {
+        showUpdateForm = false;
+    }
+
+    public async Task HandleUpdatedProfile()
+    {
+        user = await DeveloperProvider.GetProfileAsync();
+        showUpdateForm = false;
+    }
+}

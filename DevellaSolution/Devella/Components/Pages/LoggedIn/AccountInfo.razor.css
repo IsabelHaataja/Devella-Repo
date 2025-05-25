@@ -1,0 +1,24 @@
+﻿#account-info-dev {
+    margin-top: 30px;
+    margin-left: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #account-info-dev {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+}

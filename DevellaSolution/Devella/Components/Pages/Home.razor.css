@@ -10,3 +10,14 @@
     position: relative;
     align-content: flex-end;
 }
+
+.home-image-container {
+    padding: 5rem 0.5rem 5rem 1rem;
+    max-height: 100vh;
+    overflow: hidden;
+}
+.home-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

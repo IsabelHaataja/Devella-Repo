@@ -1,0 +1,28 @@
+﻿#update-dev-user {
+    width: 100%;
+    justify-content: center;
+    padding-right: 70px;
+}
+#update-dev-user form {
+    width: 100%;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 12px;
+}
+
+.btn-wrapper {
+    margin-bottom: 1rem;
+}
+
+.btn-hide-form {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    border: none;
+    background-color: cadetblue;
+}

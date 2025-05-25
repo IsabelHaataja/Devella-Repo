@@ -1,0 +1,45 @@
+﻿@page "/register"
+@using Devella.Components.Pages.Registration
+<PageTitle>Register</PageTitle>
+
+<section class="registration-container">
+    <div class="registrer-title">
+        <h2>Vad kul att du vill gå med i Devella!</h2>
+
+        <h5>Vänligen välj typ av registrering - utvecklare eller företag.</h5>
+    </div>
+
+    
+    <div class="registration-btns">
+        <button @onclick="OnDeveloperButtonClick">Företag</button>
+        <button @onclick="OnCompanyButtonClick">Utvecklare</button>
+    </div>
+
+
+    @if (isDeveloper)
+    {
+        <RegistrationFormDeveloperUser />
+    }
+    @if (isCompany)
+    {
+
+    }
+
+</section>
+
+@code {
+    private bool isDeveloper = false;
+    private bool isCompany = false;
+
+    private void OnDeveloperButtonClick()
+    {
+        isDeveloper = true;
+        isCompany = false;
+    }
+
+    private void OnCompanyButtonClick()
+    {
+        isCompany = true;
+        isDeveloper = false;       
+    }
+}

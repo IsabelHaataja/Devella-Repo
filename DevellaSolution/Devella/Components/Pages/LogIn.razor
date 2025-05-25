@@ -13,11 +13,11 @@
 
 <PageTitle>Log In</PageTitle>
 
-<section>
+<section id="login">
         <h1>Log in</h1>
     <div class="row">
         <div class="col-sm">
-            <StatusMessage Message="@errorMessage" />
+            <p>@errorMessage</p>
             <EditForm Model="@LoginModel" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <hr />
@@ -33,7 +33,7 @@
                     <ValidationMessage For="() => LoginModel.Password" class="text-danger" />
                 </div>
                 <div class="btn-login-container">
-                    <button type="submit" class="btn-login">Log in</button>
+                    <button type="submit" class="btn-primary-theme">Log in</button>
                 </div>
                 <div class="pt-4">
                     <p>
@@ -70,15 +70,15 @@
 
             var roles = AuthService.GetUserRolesFromToken(response.Token);
 
-            if (roles.Contains("Consult") || roles.Contains("Admin"))
+            if (roles.Contains("Developer") || roles.Contains("Admin"))
             {
-                NavigationManager.NavigateTo("/consult");
+                NavigationManager.NavigateTo("/devella-home");
             }
             else
             {
                 NavigationManager.NavigateTo("/");
             }
-            NavigationManager.NavigateTo("/consult");
+            NavigationManager.NavigateTo("/devella-home");
         }
         else
         {
