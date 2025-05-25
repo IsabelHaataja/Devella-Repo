@@ -1,4 +1,8 @@
+using Devella.API.Interfaces;
+using Devella.API.Repositories;
 using Devella.DataAccessLayer.Data;
+using Devella.DataAccessLayer.Models;
+using Devella.DataAccessLayer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +20,6 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-
 // read connection string from environment variables or use appsettings.json
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] ??
                        builder.Configuration.GetConnectionString("DefaultConnection");
@@ -27,8 +27,9 @@ var connectionString = builder.Configuration["ConnectionStrings:DefaultConnectio
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 // read JWT settings from environment variables or use appsettings.json
 var jwtKey = builder.Configuration["JwtSettings:Key"];
@@ -92,6 +93,15 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddAuthorization();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IDeveloperRepository, DeveloperRepository>();
+
 var allowedOrigins = builder.Configuration["AllowedOrigins"] ?? "https://localhost:7198"; // Default to localhost in development
 
 builder.Services.AddCors(options =>
@@ -114,13 +124,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Devella API v1"));
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    // Seed roles
+    await DbSeeder.SeedRolesAsync(roleManager);
+
+    // Seed users
+    await DbSeeder.SeedUsersAsync(userManager, context);
+}
+
 // Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
