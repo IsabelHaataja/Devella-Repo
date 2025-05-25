@@ -18,6 +18,10 @@ builder.Services.AddHttpClient<IAuthProvider, AuthProvider>(client =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthStateProvider>());
+builder.Services.AddHttpClient<IDeveloperProvider, DeveloperProvider>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7153/");
+});
 
 var app = builder.Build();
 
