@@ -1,0 +1,77 @@
+﻿@inject NavigationManager Navigation
+@inherits LayoutComponentBase
+
+<div class="layout-container">
+    <div class="navbar-container @(IsCollapsed ? "collapsed" : "")">
+        <nav class="navbar">
+            <ul class="navbar-list">
+                <li class="d-flex justify-content-between align-items-center">
+                    <a id="devella-nav-logo" href="/devella-home"><img src="icons/Devella-logo-transparent.png" /></a>
+                    <button class="toggle-btn inside" @onclick="ToggleNavbar">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                </li>
+                <li>
+                    <NavLink href="/explore" class="navbar-link" activeClass="active">
+                        <i class="fa-solid fa-users"></i> Utforska
+                    </NavLink>
+                </li>
+                <!-- TODO display users name instead of "Användare" -->
+                <li>
+                    <NavLink href="/account-info" class="navbar-link" activeClass="active">
+                        <i class="fa-solid fa-user"></i>Profil
+                    </NavLink>
+                </li>
+
+                <li>
+                    <NavLink href="/logout" class="navbar-link" activeClass="active">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>Logga ut
+                    </NavLink>
+                </li>
+
+                <li>
+                    <NavLink href="/settings" class="navbar-link" activeClass="active">
+                        <i class="fa-solid fa-gear"></i>Inställningar
+                    </NavLink>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <button class="toggle-btn outside" @onclick="ToggleNavbar">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <div class="content-container">
+        @Body
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback<bool> OnCollapseChanged { get; set; }
+    public bool IsCollapsed { get; private set; } = false;
+    private string userId = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        IsCollapsed = true;
+        OnCollapseChanged.InvokeAsync(IsCollapsed);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+
+    private void ToggleNavbar()
+    {
+        IsCollapsed = !IsCollapsed;
+        OnCollapseChanged.InvokeAsync(IsCollapsed);
+    }
+}

@@ -1,0 +1,42 @@
+﻿.content-wrapper {
+    margin-left: 200px;
+    margin-right: 70px;
+    width: 100%;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Gets rid of margin left for navbar when collapsed */
+.content-wrapper.collapsed {
+    margin-left: 0;
+    width: 100%;
+}
+
+.page-wrapper {
+    display: flex;
+    transition: margin-left 0.3s ease-in-out;
+    width: 100%;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 70px;
+    }
+
+    .content-wrapper.collapsed {
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 0;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+    }
+}

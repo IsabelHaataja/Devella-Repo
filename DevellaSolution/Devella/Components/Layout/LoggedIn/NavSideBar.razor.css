@@ -1,0 +1,177 @@
+﻿.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    background-color: #6497cd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    transition: width 0.3s ease-in-out;
+}
+
+.navbar-container.collapsed {
+    transform: translateX(-100%);
+    width: 0;
+}
+
+#devella-nav-logo img {
+    height: 45px;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-list {
+    list-style-type: none;
+    margin: 0 1rem 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    flex-grow: 1; /* Creates space between settings and other items */
+}
+
+.navbar-list li {
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.navbar-list li:last-child{
+    margin-top: auto;
+}
+
+.navbar-list i {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: box-shadow 0.2s ease;
+}
+
+.navbar-list i:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-list i {
+    font-size: 25px;
+}
+
+.navbar-link {
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    display: block;
+    transition: background-color 0.3s;
+    width: 100%;
+    text-align: left;
+}
+
+.navbar-link i {
+    color: white;
+}
+
+
+.navbar-container.collapsed .navbar-link {
+    text-align: center;
+}
+
+.toggle-btn {
+    transition: box-shadow 0.2s ease;
+}
+
+.toggle-btn.inside {
+    background: none;
+    border: none;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* removes duplicate border styling */
+.toggle-btn.inside i {
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+}
+
+.toggle-btn.outside {
+    position: fixed;
+    top: 2px;
+    left: 27px;
+    background: #6497cd;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 900; /* Ensures it stays visible */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.toggle-btn i {
+    color: white;
+}
+
+.toggle-btn i:hover {
+    color: white;
+}
+
+.toggle-btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-container:not(.collapsed) + .toggle-btn {
+    display: none;
+}
+
+/* Hides items */
+.navbar-container.collapsed .navbar {
+    visibility: hidden;
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        width: 80px;
+    }
+
+    .navbar-container.collapsed {
+        width: 0;
+    }
+
+    .toggle-btn.outside {
+        top: 10px;
+        left: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1025px) {
+    .navbar-container {
+        width: 80px;
+    }
+
+    .toggle-btn.outside {
+        top: 10px;
+        left: 10px;
+    }
+}
