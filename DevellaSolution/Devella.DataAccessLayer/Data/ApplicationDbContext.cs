@@ -12,4 +12,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
 
     }
+
+    public DbSet<CompanyUser> CompanyUsers { get; set; } = null!;
+    public DbSet<DeveloperUser> DeveloperUsers { get; set; } = null!;
+    public DbSet<AdminUser> AdminUsers { get; set; } = null!;
 }
