@@ -20,3 +20,7 @@ function setupNavbarScrollHandler() {
         lastScrollTop = scrollTop;
     });
 }
+
+window.getSelectedOptions = function (selectElement) {
+    return Array.from(selectElement.selectedOptions).map(option => option.value);
+}
