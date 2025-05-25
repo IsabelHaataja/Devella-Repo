@@ -3,6 +3,9 @@ using Devella.DataAccessLayer.DTOs.UserAccess;
 using Devella.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Devella.DataAccessLayer.Mappers.UserAuth;
+using Devella.API.Repositories;
+using Devella.DataAccessLayer.Enums;
 
 namespace Devella.API.Controllers;
     [ApiController]
@@ -19,27 +22,36 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterModel model)
+    public async Task<IActionResult> Register([FromForm] RegisterDTO model)
     {
-        if (model.Password != model.ConfirmPassword)
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
         {
-            return BadRequest(new { Message = "Passwords do not match" });
+            var user = model.ToUser();
+            var result = await _authRepo.CreateUserAsync(user, model.Password);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            await _authRepo.AddUserToRoleAsync(user, model.Role.ToString());
+
+            if (model.Role == Role.Developer)
+            {
+                await _authRepo.CreateDeveloperProfileAsync(user.Id);
+            }
+            else if (model.Role == Role.Client)
+            {
+                await _authRepo.CreateClientProfileAsync(user.Id);
+            }
+
+            return Ok(new { Message = "User registered successfully!" });
         }
-
-        var user = new User 
-        { 
-            UserName = model.Email, 
-            Email = model.Email, 
-            FirstName = model.FullName,
-            Surname = model.Surname,
-        };
-
-        var result = await _userManager.CreateAsync(user, model.Password);
-
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        return Ok(new { Message = "User registered successfully!" });
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during registration: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }
     }
 
     [HttpPost("login")]
