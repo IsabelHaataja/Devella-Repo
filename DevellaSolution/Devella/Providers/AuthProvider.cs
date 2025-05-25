@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Newtonsoft.Json;
+using Devella.DataAccessLayer.DTOs.UserAccess;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Devella.Providers
 {
@@ -29,6 +31,27 @@ namespace Devella.Providers
             }
             Console.WriteLine($"[AuthProvider] Response Status: {response.StatusCode}");
             return default;
+        }
+
+        public async Task<bool> RegisterUserAsync(RegisterDTO model)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/auth/register", model);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[AuthProvider] User registered successfully: {response}");
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[AuthProvider] Error during registration: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task SetAuthorizationHeaderAsync()
