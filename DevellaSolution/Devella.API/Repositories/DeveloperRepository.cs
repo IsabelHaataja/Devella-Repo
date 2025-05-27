@@ -32,6 +32,29 @@ public class DeveloperRepository : IDeveloperRepository
         }
     }
 
+    public async Task<IEnumerable<DeveloperUser?>> GetDeveloperProfilesAsync()
+    {
+        try
+        {
+            return await _context.DeveloperUsers
+                .Include(d => d.User)
+                .Include(d => d.Competence)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Could not retreive developer profile info: {ex.Message}");
+            return null;
+        }
+    }
+
+    public IQueryable<DeveloperUser> GetAllQueryable()
+    {
+        return _context.DeveloperUsers
+            .Include(d => d.User)
+            .Include(d => d.Competence);
+    }
+
     public async Task<DeveloperUser?> UpdateDeveloperProfileAsync(string userId, UpdateDevProfileDTO dto)
     {
         try
