@@ -1,11 +1,51 @@
-﻿@using Devella.Components.Layout.LoggedIn
+﻿@using Devella.API.Interfaces
+@using Devella.Components.Layout.LoggedIn
+@using Devella.Providers
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService AuthService
 @layout AuthenticatedLayout
 @page "/devella-home"
 
-<h1>
-    Devella Home Logged in
-</h1>
+<PageTitle>Devella Home</PageTitle>
+<AuthorizeView Roles="Developer, Admin, Client">
+    <Authorized>
+        <section id="devella-home">
+            <h1>Välkommen @userName!</h1>
 
+            @if (role == "Developer")
+            {
+                <p>Du är inloggad som utvecklare. Här kan du hantera dina projekt och samarbeta med andra utvecklare.</p>
+            }
+            else if (role == "Client")
+            {
+                <p>Du är inloggad som kund. Här kan du se dina projekt och kommunicera med utvecklare.</p>
+            }
+            else if (role == "Admin")
+            {
+                <p>Du är inloggad som administratör. Här kan du hantera användare och systeminställningar.</p>
+            }
+            else
+            {
+                <p>Du har inte behörighet att se denna sida.</p>
+            }
+        </section>
+    </Authorized>
+    <NotAuthorized>
+        <h3>You do not have permission to access this page</h3>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
+    private string userName = "Okänd";
+    private string role = string.Empty;
 
+    // Fetch username and role from the authentication state
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await ((CustomAuthStateProvider)AuthStateProvider).GetAuthenticationStateAsync();
+        var user = authState.User;
+        userName = user?.Identity?.Name ?? "Okänd";
+        role = user?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+    }
 }
