@@ -1,0 +1,8 @@
+﻿<div class="loading-container">
+    <div class="spinner"></div>
+    <p>@(Message ?? "Laddar...")</p>
+</div>
+
+@code {
+    [Parameter] public string? Message { get; set; }
+}
