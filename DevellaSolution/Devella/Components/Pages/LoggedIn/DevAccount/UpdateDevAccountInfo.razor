@@ -8,94 +8,94 @@
 <section id="update-dev-user">
     <div class="btn-wrapper">
         <button class="btn-hide-form" @onclick="CloseForm"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-
-    <EditForm EditContext="editContext" OnValidSubmit="@UpdateUserInfo">
-        <DataAnnotationsValidator />
-
         <h3>Uppdatera information</h3>
+    </div>
+    <div class="update-dev-form">
+        <EditForm EditContext="editContext" OnValidSubmit="@UpdateUserInfo">
+            <DataAnnotationsValidator />
 
-        <div class="row">
-            <div class="form-control">
-                <label for="experience">Erfarenhet (år)</label>
-                <InputNumber id="experience" @bind-Value="updateUser.Experience" />
-                <ValidationMessage For="@(() => updateUser.Experience)" />
+            <div class="row mt-3">
+                <div class="form-control">
+                    <label for="experience">Erfarenhet (år)</label>
+                    <InputNumber id="experience" @bind-Value="updateUser.Experience" />
+                    <ValidationMessage For="@(() => updateUser.Experience)" />
+                </div>
+                <div class="form-control">
+                    <label for="wantedPosition">Önskad position</label>
+                    <InputSelect id="wantedPosition" @bind-Value="updateUser.WantedPosition">
+                        <option value="">Välj</option>
+                        @foreach (var wantedPosition in Enum.GetValues(typeof(TypeOfPosition)))
+                        {
+                            <option value="@wantedPosition">@wantedPosition</option>
+                        }
+                    </InputSelect>
+                </div>
             </div>
-            <div class="form-control">
-                <label for="wantedPosition">Önskad position</label>
-                <InputSelect id="wantedPosition" @bind-Value="updateUser.WantedPosition">
-                    <option value="">Välj</option>
-                    @foreach (var wantedPosition in Enum.GetValues(typeof(TypeOfPosition)))
-                    {
-                        <option value="@wantedPosition">@wantedPosition</option>
-                    }
-                </InputSelect>
-            </div>
-        </div>
 
-        <small class="text-muted">Håll ned Ctrl (Cmd på Mac) för att välja flera alternativ</small>
-        <div class="row">
-            <div class="form-control">
-                <label for="qualifications">Kvalificeringar</label>
-                <select @ref="qualificationsSelect" multiple class="form-control"
-                        @onchange="OnQualificationsChanged">
-                    @foreach (Qualification qualification in Enum.GetValues(typeof(Qualification)))
-                    {
-                        <option value="@qualification" selected="@updateUser.Qualifications?.Contains(qualification)">
-                            @EnumHelper.GetDisplayName(qualification)
-                        </option>
-                    }
-                </select>
+            <small class="text-muted">Håll ned Ctrl (Cmd på Mac) för att välja flera alternativ</small>
+            <div class="row mt-3">
+                <div class="form-control">
+                    <label for="qualifications">Kvalificeringar</label>
+                    <select @ref="qualificationsSelect" multiple class="form-control"
+                            @onchange="OnQualificationsChanged">
+                        @foreach (Qualification qualification in Enum.GetValues(typeof(Qualification)))
+                        {
+                            <option value="@qualification" selected="@updateUser.Qualifications?.Contains(qualification)">
+                                @EnumHelper.GetDisplayName(qualification)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="competenceArea">Kompetensområden</label>
+                    <select @ref="competenceAreaSelect" multiple class="form-control"
+                            @onchange="OnCompetenceAreasChanged">
+                        @foreach (CompetenceArea area in Enum.GetValues(typeof(CompetenceArea)))
+                        {
+                            <option value="@area" selected="@updateUser.CompetenceAreas?.Contains(area)">
+                                @EnumHelper.GetDisplayName(area)
+                            </option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="form-control">
-                <label for="competenceArea">Kompetensområden</label>
-                <select @ref="competenceAreaSelect" multiple class="form-control"
-                        @onchange="OnCompetenceAreasChanged">
-                    @foreach (CompetenceArea area in Enum.GetValues(typeof(CompetenceArea)))
-                    {
-                        <option value="@area" selected="@updateUser.CompetenceAreas?.Contains(area)">
-                            @EnumHelper.GetDisplayName(area)
-                        </option>
-                    }
-                </select>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="form-control">
-                <label for="programmingLanguages">Programmeringsspråk</label>
-                <select @ref="programmingLanguagesSelect" multiple class="form-control"
-                        @onchange="OnProgrammingLanguagesChanged">
-                    @foreach (ProgrammingLanguage programmingLanguage in Enum.GetValues(typeof(ProgrammingLanguage)))
-                    {
-                        <option value="@programmingLanguage" selected="@updateUser.ProgrammingLanguages?.Contains(programmingLanguage)">
-                            @EnumHelper.GetDisplayName(programmingLanguage)
-                        </option>
-                    }
-                </select>
+            <div class="row mt-3">
+                <div class="form-control">
+                    <label for="programmingLanguages">Programmeringsspråk</label>
+                    <select @ref="programmingLanguagesSelect" multiple class="form-control"
+                            @onchange="OnProgrammingLanguagesChanged">
+                        @foreach (ProgrammingLanguage programmingLanguage in Enum.GetValues(typeof(ProgrammingLanguage)))
+                        {
+                            <option value="@programmingLanguage" selected="@updateUser.ProgrammingLanguages?.Contains(programmingLanguage)">
+                                @EnumHelper.GetDisplayName(programmingLanguage)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="competenceLevel">Kompetensnivå</label>
+                    <select @ref="competenceLevelSelect" multiple class="form-control"
+                            @onchange="OnCompetenceLevelChanged">
+                        @foreach (CompetenceLevel competenceLevel in Enum.GetValues(typeof(CompetenceLevel)))
+                        {
+                            <option value="@competenceLevel" selected="@updateUser.CompetenceLevel?.Contains(competenceLevel)">
+                                @EnumHelper.GetDisplayName(competenceLevel)
+                            </option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="form-control">
-                <label for="competenceLevel">Kompetensnivå</label>
-                <select @ref="competenceLevelSelect" multiple class="form-control"
-                        @onchange="OnCompetenceLevelChanged">
-                    @foreach (CompetenceLevel competenceLevel in Enum.GetValues(typeof(CompetenceLevel)))
-                    {
-                        <option value="@competenceLevel" selected="@updateUser.CompetenceLevel?.Contains(competenceLevel)">
-                            @EnumHelper.GetDisplayName(competenceLevel)
-                        </option>
-                    }
-                </select>
+
+            <div id="description" class="form-control mt-3">
+                <label for="description">Beskrivning</label>
+                <InputTextArea id="description" @bind-Value="updateUser.Description" />
             </div>
-        </div>
 
-        <div class="form-control row">
-            <label for="description">Beskrivning</label>
-            <InputTextArea id="description" @bind-Value="updateUser.Description" />
-        </div>
-
-        <ValidationSummary />
-        <button type="submit">Spara ändringar</button>
-    </EditForm>
+            <ValidationSummary />
+            <button class="btn-primary-theme mt-3" type="submit">Spara ändringar</button>
+        </EditForm>
+    </div>
 </section>
 
 @code {

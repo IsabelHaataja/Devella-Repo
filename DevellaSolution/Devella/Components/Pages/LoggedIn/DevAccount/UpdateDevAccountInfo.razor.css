@@ -1,10 +1,12 @@
 ﻿#update-dev-user {
     width: 100%;
     justify-content: center;
-    padding-right: 70px;
+    padding-right: 50px;
+    margin-bottom: 2rem;
 }
-#update-dev-user form {
-    width: 100%;
+
+.update-dev-form {
+    margin-left: 3rem;
 }
 
 .form-control {
@@ -14,8 +16,25 @@
     margin-left: 12px;
 }
 
+.form-control select {
+    margin-left: 0;
+}
+
+#description {
+    margin-left: 0;
+}
 .btn-wrapper {
     margin-bottom: 1rem;
+    display: flex;
+    gap: 3rem;
+}
+.btn-wrapper button i {
+    font-size: 1.4rem;
+    vertical-align: middle;
+    align-items: center;
+}
+.btn-wrapper h3 {
+    margin: 0;
 }
 
 .btn-hide-form {
