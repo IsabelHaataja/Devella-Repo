@@ -7,12 +7,10 @@
 @attribute [Authorize(Roles = "Developer,Client,Admin")]
 
 <div class="page-wrapper">
-    <div class="top-bar">
-    </div>
 
     <NavSideBar @ref="navbar" OnCollapseChanged="HandleNavbarCollapse" />
     <main class="content-wrapper @(isCollapsed ? "collapsed" : "")">
-        <article>                
+        <article>
             @Body
         </article>
     </main>
@@ -22,8 +20,6 @@
 
     private NavSideBar navbar;
     private bool isCollapsed = false;
-
-
 
     protected override async Task OnInitializedAsync()
     {
