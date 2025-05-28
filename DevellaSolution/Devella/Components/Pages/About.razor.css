@@ -4,16 +4,15 @@
     display: flex;
     flex-direction: column;
 }
+
 .about-top-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 1.5rem 0 5rem 0;
+    margin: 1.5rem 0 3rem 0;
 }
-.about-top-section h1 {
-    margin-bottom: 2.5rem;
-}
+
 .about-texts {
     text-align: left;
     margin: 1.5rem 7rem 2rem 7rem;
