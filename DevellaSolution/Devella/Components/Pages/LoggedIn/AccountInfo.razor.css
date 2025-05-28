@@ -1,9 +1,11 @@
 ﻿#account-info-dev {
-    margin-top: 30px;
-    margin-left: 70px;
+    background-color: whitesmoke;
+    padding-top: 30px;
+    padding-left: 100px;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+    height: 100vh;
 }
 .left-column,
 .right-column {
