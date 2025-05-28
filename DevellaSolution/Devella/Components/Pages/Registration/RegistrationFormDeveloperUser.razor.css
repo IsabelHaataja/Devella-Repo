@@ -1,0 +1,13 @@
+﻿#dev-reg-form h5 {
+    text-align: center;
+}
+#dev-reg-form p {
+    text-align: center;
+}
+
+.registration-buttons {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    justify-content: space-between;
+}

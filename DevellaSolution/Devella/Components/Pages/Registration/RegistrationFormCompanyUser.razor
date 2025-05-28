@@ -4,10 +4,10 @@
 @inject NavigationManager NavigationManager
 @inject IAuthProvider AuthProvider
 
-<section id="dev-reg-form">
-    <h5>Du har valt utvecklare</h5>
+<section id="comp-reg-form">
+    <h5>Du har valt företag</h5>
     <p>Vänligen fyll i följande fält för att fullborda registreringen</p>
-    <EditForm Model="@registerData" method="post" FormName="registerDeveloper" OnValidSubmit="RegisterDeveloperUser">
+    <EditForm Model="@registerData" method="post" FormName="registerDeveloper" OnValidSubmit="RegisterCompanyUser">
         <DataAnnotationsValidator />
         <div class="row">
             <div class="form-group col-md-6 mt-3">
@@ -51,7 +51,7 @@
 </section>
 
 @code {
-    private RegisterDTO registerData = new ();
+    private RegisterDTO registerData = new();
     // Allows parent component to handle cancel event
     [Parameter] public EventCallback OnCancel { get; set; }
     // Allows parent component to handle success event
@@ -59,11 +59,11 @@
     // Allows parent component to handle failed event
     [Parameter] public EventCallback OnRegistrationFailed { get; set; }
 
-    private async Task RegisterDeveloperUser()
+    private async Task RegisterCompanyUser()
     {
         try
         {
-            registerData.Role = Role.Developer;
+            registerData.Role = Role.Client;
             var request = await AuthProvider.RegisterUserAsync(registerData);
             if (request == false)
             {

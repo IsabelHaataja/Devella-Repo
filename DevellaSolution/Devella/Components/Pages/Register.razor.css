@@ -1,16 +1,33 @@
 ﻿
 .registration-container {
-    margin-top: 3rem;
-}
-
-.registrer-title {
+    margin: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100vh;
+}
+
+.registrer-title {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.registrer-title h5 {
+    margin-top: 1rem;
 }
 
 .registration-btns {
     display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 2.5rem;
+}
+
+.form-wrapper {
+    width: 100%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
 }
