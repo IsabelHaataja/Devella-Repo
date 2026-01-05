@@ -53,6 +53,5 @@ Features such as automated matching, notifications, and third-party integrations
 ## 📄 Thesis Report
 
 The full thesis report (in Swedish) is included in this repository and provides detailed background, technical decisions, and reflections on the project. 
-(https://github.com/user-attachments/files/24401712/Examensarbete_v2.pdf)
----
+[View thesis report (PDF)](https://github.com/user-attachments/files/24401712/Examensarbete_v2.pdf)
 
