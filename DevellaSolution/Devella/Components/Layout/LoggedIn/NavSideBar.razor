@@ -1,4 +1,8 @@
-﻿@inject NavigationManager Navigation
+﻿@using Devella.Providers
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 @inherits LayoutComponentBase
 
 <div class="layout-container">
@@ -17,11 +21,22 @@
                     </NavLink>
                 </li>
 
-                <li>
-                    <NavLink href="/account-info" class="navbar-link" activeClass="active">
-                        <i class="fa-solid fa-user"></i>Profil
-                    </NavLink>
-                </li>
+                @if (role == "Developer")
+                {
+                    <li>
+                        <NavLink href="/account-info" class="navbar-link" activeClass="active">
+                            <i class="fa-solid fa-user"></i>Profil
+                        </NavLink>
+                    </li>                    
+                }
+                else if (role == "Client")
+                {
+                    <li>
+                        <NavLink href="/saved-profiles" class="navbar-link" activeClass="active">
+                            <i class="fa-solid fa-list"></i> Sparade användare
+                        </NavLink>
+                    </li>
+                }
 
                 <li>
                     <NavLink href="/logout" class="navbar-link" activeClass="active">
@@ -51,10 +66,15 @@
     [Parameter] public EventCallback<bool> OnCollapseChanged { get; set; }
     public bool IsCollapsed { get; private set; } = false;
     private string userId = string.Empty;
+    private string role = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Navigation.LocationChanged += OnLocationChanged;
+
+        var authState = await ((CustomAuthStateProvider)AuthStateProvider).GetAuthenticationStateAsync();
+        var user = authState.User;
+        role = user?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
     }
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)

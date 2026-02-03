@@ -22,6 +22,10 @@ builder.Services.AddHttpClient<IDeveloperProvider, DeveloperProvider>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7153/");
 });
+builder.Services.AddHttpClient<ICompanyProvider, CompanyProvider>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7153/");
+});
 
 var app = builder.Build();
 

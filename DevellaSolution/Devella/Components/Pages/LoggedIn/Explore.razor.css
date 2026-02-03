@@ -1,5 +1,5 @@
 ﻿#explore-container {
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background-color: whitesmoke;
 }
@@ -65,6 +65,12 @@
     color: steelblue;
 }
 
+.profile-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
 .profile-card {
     width: 100%;
     max-width: 300px;
@@ -74,6 +80,26 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #4682b4a6;
     color: white;
+}
+.profile-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.btn-save-profile {
+    border-radius: 50%;
+    border: none;
+    background-color: #76a775;
+    color: white;
+    height: 30px;
+    width: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+.btn-save-profile:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 768px) {

@@ -42,9 +42,14 @@
         </div>
 
         <ValidationSummary />
-
+        <div class="form-check mt-3">
+            <InputCheckbox id="consentCheckbox" class="form-check-input" @bind-Value="isConsentGiven" />
+            <label class="form-check-label" for="consentCheckbox">
+                Jag godkänner att Devella lagrar min data
+            </label>
+        </div>
         <div class="registration-buttons">
-            <button class="btn-primary-theme" type="submit">Registrera</button>
+            <button class="btn-primary-theme" type="submit" disabled="@(!isConsentGiven)">Registrera</button>
             <button class="btn-primary-theme" type="button" @onclick="CancelForm">Avbryt</button>
         </div>
     </EditForm>
@@ -58,6 +63,9 @@
     [Parameter] public EventCallback OnRegistrationSuccess { get; set; }
     // Allows parent component to handle failed event
     [Parameter] public EventCallback OnRegistrationFailed { get; set; }
+
+    // Indicates if the user has given consent to store their data
+    bool isConsentGiven = false;
 
     private async Task RegisterDeveloperUser()
     {

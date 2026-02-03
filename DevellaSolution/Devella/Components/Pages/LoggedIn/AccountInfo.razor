@@ -6,7 +6,7 @@
 @inject IDeveloperProvider DeveloperProvider
 @layout AuthenticatedLayout
 @page "/account-info"
-<PageTitle>Account Info</PageTitle>
+<PageTitle>Profil Info</PageTitle>
 
 
 <section id="account-info-dev">
@@ -14,29 +14,11 @@
         <h3> Din Profil Information</h3>
         @if (user != null)
         {
-            <div>
+            <div class="mt-3">
                 <h4>@user.FirstName @user.Surname</h4>
             </div>
 
-            <div>
-                <label>Om @user.FirstName</label>
-                @if (user.Description != null)
-                {
-                    <div>
-                        <p>@user.Description</p>
-                    </div>
-                }
-                else
-                {
-                    <p><em>Ingen information om användaren tillgänglig.</em></p>
-                }
-            </div>
-
-            <div>
-                <p> Har @user.Experience års erfarenhet</p>
-            </div>
-
-            <div>
+            <div class="mt-2">
                 <label><strong>Färdigheter</strong></label>
                 @if (user.Competence != null)
                 {
@@ -68,14 +50,36 @@
                 <label><strong>@user.FirstName söker</strong></label>
                 <p>@user.WantedPosition</p>
             </div>
+
+                        <div>
+                <label><strong>Om @user.FirstName</strong></label>
+                @if (user.Description != null)
+                {
+                    <div>
+                        <p>@user.Description</p>
+                    </div>
+                }
+                else
+                {
+                    <p><em>Ingen beskrivning av användaren tillgänglig.</em></p>
+                }
+            </div>
+
+            <div>
+                <p><strong>@user.FirstName har:</strong> @user.Experience års erfarenhet</p>
+            </div>
+
+            <div>
+                <p><strong>E-postadress:</strong> @user.Email</p>
+            </div>
         }
         else
         {
-            <p><em>Kunde inte hämta användarinfo..</em></p>
+            <p><em>Kunde inte hämta information..</em></p>
         }
 
         <div>
-            <button class="btn-primary-theme" @onclick="ToggleUpdateForm">Redigera <i class="fa-solid fa-pen"></i></button>
+            <button class="btn-primary-theme mb-4" @onclick="ToggleUpdateForm">Redigera <i class="fa-solid fa-pen"></i></button>
         </div>
     </div>
 
