@@ -25,7 +25,7 @@ var connectionString = builder.Configuration["ConnectionStrings:DefaultConnectio
                        builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
 
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
