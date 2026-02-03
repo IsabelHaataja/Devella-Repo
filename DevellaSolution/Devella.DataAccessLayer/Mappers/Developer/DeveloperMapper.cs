@@ -15,6 +15,7 @@ public static class DeveloperMapper
             UserId = dev.UserId,
             FirstName = dev.User.FirstName,
             Surname = dev.User.Surname,
+            Email = dev.User.Email,
             Description = dev.Description,
             School = dev.School,
             Experience = dev.Experience,

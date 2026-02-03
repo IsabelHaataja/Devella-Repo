@@ -10,6 +10,7 @@ public class DeveloperProfileDTO
     public string UserId { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string Surname { get; set; } = null!;
+    public string? Email { get; set; }
     public string? Description { get; set; }
     public string? School { get; set; }
     public int Experience { get; set; }

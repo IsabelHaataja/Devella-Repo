@@ -11,4 +11,5 @@ public class User : IdentityUser
     public DeveloperUser? DeveloperProfile { get; set; }
     public CompanyUser? CompanyProfile { get; set; }
     public AdminUser? AdminProfile { get; set; }
+    public DateOnly Created { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 }

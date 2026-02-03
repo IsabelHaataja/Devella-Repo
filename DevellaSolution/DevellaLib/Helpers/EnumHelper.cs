@@ -15,4 +15,14 @@ public static class EnumHelper
             .GetCustomAttribute<DisplayAttribute>()?
             .Name ?? enumValue.ToString();
     }
+
+    public static string GetEnumDisplayName(Enum enumValue)
+    {
+        var displayAttr = enumValue.GetType()
+            .GetField(enumValue.ToString())
+            ?.GetCustomAttributes(typeof(DisplayAttribute), false)
+            .FirstOrDefault() as DisplayAttribute;
+
+        return displayAttr?.Name ?? enumValue.ToString();
+    }
 }

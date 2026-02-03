@@ -39,9 +39,10 @@ public static class DbSeeder
             {
                 UserName = email,
                 Email = email,
-                FirstName = "Developer",
+                FirstName = "Sten",
                 Surname = "Andersson",
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                Created = DateOnly.FromDateTime(DateTime.UtcNow)
             };
 
             var result = await userManager.CreateAsync(user, "DeveloperPass123!");
@@ -49,14 +50,181 @@ public static class DbSeeder
             {
                 await userManager.AddToRoleAsync(user, Role.Developer.ToString());
 
+                // Seed Competences for user
+                var competence = new Competence
+                {
+                    UserId = user.Id,
+                    Qualifications = new List<Qualification>
+                    {
+                        Qualification.DotNet,
+                        Qualification.ReactJS,
+                        Qualification.NodeJS
+                    },
+                    CompetenceAreas = new List<CompetenceArea>
+                    {
+                        CompetenceArea.SoftwareDevelopment,
+                        CompetenceArea.FrontEnd,
+                        CompetenceArea.BackEnd,
+                    },
+                    ProgrammingLanguages = new List<ProgrammingLanguage>
+                    {
+                        ProgrammingLanguage.CSharp,
+                        ProgrammingLanguage.JavaScript,
+                        ProgrammingLanguage.TypeScript,
+                        ProgrammingLanguage.Python
+                    },
+                    CompetenceLevel = new List<CompetenceLevel>
+                    {
+                        CompetenceLevel.Intermediate,
+                    }
+                };
+
+                // Created dev profile
                 var developerProfile = new DeveloperUser
                 {
                     UserId = user.Id,
-                    Competence = null,
+                    Competence = competence,
                     Experience = 3,
                     School = "KTH",
                     WantedPosition = TypeOfPosition.FullTime,
-                    Description = "Seeded developer"
+                    Description = "Junior mjukvaruutvecklare med starka " +
+                    "grundkunskaper inom objektorienterad programmering " +
+                    "och webbutveckling. Har arbetat med mindre projekt " +
+                    "i team där jag fått erfarenhet av versionshantering " +
+                    "och agil metodik. Söker nu en möjlighet att tillämpa" +
+                    " mina kunskaper och växa i en professionell miljö."
+                };
+
+                context.DeveloperUsers.Add(developerProfile);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        // dev user 2
+        var email2 = "Adam.Svensson@example.com";
+        var user2 = await userManager.FindByEmailAsync(email2);
+
+        if (user2 == null)
+        {
+            user2 = new User
+            {
+                UserName = email2,
+                Email = email2,
+                FirstName = "Adam",
+                Surname = "Svensson",
+                EmailConfirmed = true,
+                Created = DateOnly.FromDateTime(DateTime.UtcNow)
+            };
+
+            var result = await userManager.CreateAsync(user2, "DeveloperPass123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user2, Role.Developer.ToString());
+
+                // Seed Competences for user
+                var competence = new Competence
+                {
+                    UserId = user2.Id,
+                    Qualifications = new List<Qualification>
+                    {
+                        Qualification.VueJS,
+                        Qualification.Ruby,
+                    },
+                    CompetenceAreas = new List<CompetenceArea>
+                    {
+                        CompetenceArea.SoftwareDevelopment,
+                        CompetenceArea.FrontEnd
+                    },
+                    ProgrammingLanguages = new List<ProgrammingLanguage>
+                    {
+                        ProgrammingLanguage.CSharp,
+                        ProgrammingLanguage.JavaScript
+                    },
+                    CompetenceLevel = new List<CompetenceLevel>
+                    {
+                        CompetenceLevel.Intermediate,
+                    }
+                };
+
+                // Created dev profile
+                var developerProfile = new DeveloperUser
+                {
+                    UserId = user2.Id,
+                    Competence = competence,
+                    Experience = 3,
+                    School = "KYH",
+                    WantedPosition = TypeOfPosition.LIA,
+                    Description = "Driven och nyfiken mjukvaruutvecklare med " +
+                    "grundläggande kunskaper i programmering och systemutveckling. " +
+                    "Erfarenhet av projekt inom både skol- och fritidsmiljö, med " +
+                    "fokus på problemlösning och teamwork. Strävar efter att lära " +
+                    "mig nya teknologier och bidra med kreativitet i utvecklingsprocessen."
+                };
+
+                context.DeveloperUsers.Add(developerProfile);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        // dev user 3
+        var email3 = "sandra.eriksson@example.com";
+        var user3 = await userManager.FindByEmailAsync(email3);
+
+        if (user3 == null)
+        {
+            user3 = new User
+            {
+                UserName = email3,
+                Email = email3,
+                FirstName = "Sandra",
+                Surname = "Eriksson",
+                EmailConfirmed = true,
+                Created = DateOnly.FromDateTime(DateTime.UtcNow)
+            };
+
+            var result = await userManager.CreateAsync(user3, "DeveloperPass123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user3, Role.Developer.ToString());
+
+                // Seed Competences for user
+                var competence = new Competence
+                {
+                    UserId = user3.Id,
+                    Qualifications = new List<Qualification>
+                    {
+                        Qualification.ReactJS,
+                        Qualification.NodeJS
+                    },
+                    CompetenceAreas = new List<CompetenceArea>
+                    {
+                        CompetenceArea.SoftwareDevelopment,
+                        CompetenceArea.FrontEnd
+                    },
+                    ProgrammingLanguages = new List<ProgrammingLanguage>
+                    {
+                        ProgrammingLanguage.TypeScript,
+                        ProgrammingLanguage.JavaScript
+                    },
+                    CompetenceLevel = new List<CompetenceLevel>
+                    {
+                        CompetenceLevel.Beginner,
+                    }
+                };
+
+                // Created dev profile
+                var developerProfile = new DeveloperUser
+                {
+                    UserId = user3.Id,
+                    Competence = competence,
+                    Experience = 3,
+                    School = "KYH",
+                    WantedPosition = TypeOfPosition.Internship,
+                    Description = "Entusiastisk och noggrann mjukvaruutvecklare under " +
+                    "utbildning med intresse för både frontend och backend. Erfarenhet " +
+                    "av att skapa användarvänliga applikationer och lära mig moderna " +
+                    "ramverk som React och Node.js. Ambition att bidra till kvalitativa " +
+                    "och effektiva mjukvarulösningar i ett utvecklande team"
                 };
 
                 context.DeveloperUsers.Add(developerProfile);
@@ -67,7 +235,7 @@ public static class DbSeeder
 
     private static async Task SeedClientAsync(UserManager<User> userManager, ApplicationDbContext context)
     {
-        var email = "client@example.com";
+        var email = "company@example.com";
         var user = await userManager.FindByEmailAsync(email);
 
         if (user == null)
@@ -76,9 +244,10 @@ public static class DbSeeder
             {
                 UserName = email,
                 Email = email,
-                FirstName = "Client",
+                FirstName = "Sven",
                 Surname = "Bengtsson",
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                Created = DateOnly.FromDateTime(DateTime.UtcNow)
             };
 
             var result = await userManager.CreateAsync(user, "ClientPass123!");
@@ -90,7 +259,6 @@ public static class DbSeeder
                 {
                     UserId = user.Id,
                     CompanyName = "Seeded Co",
-                    SavedDevelopers = new List<DeveloperUser>()
                 };
 
                 context.CompanyUsers.Add(companyProfile);
@@ -112,7 +280,8 @@ public static class DbSeeder
                 Email = email,
                 FirstName = "Admin",
                 Surname = "Adminsson",
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                Created = DateOnly.FromDateTime(DateTime.UtcNow)
             };
 
             var result = await userManager.CreateAsync(user, "AdminPass123!");

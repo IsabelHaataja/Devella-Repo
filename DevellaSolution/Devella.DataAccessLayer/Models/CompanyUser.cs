@@ -10,5 +10,5 @@ public class CompanyUser
 
     public string? CompanyName { get; set; }
 
-    public List<DeveloperUser> SavedDevelopers { get; set; } = new();
+    public List<int> DeveloperIds { get; set; } = new();
 }

@@ -1,6 +1,8 @@
 ﻿using Devella.API.Interfaces;
 using Devella.DataAccessLayer.DTOs.UserAccess;
+using Devella.DataAccessLayer.Enums;
 using Devella.DataAccessLayer.Mappers.Developer;
+using DevellaLib.Helpers;
 using DevellaLib.Services.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -88,19 +90,36 @@ namespace Devella.API.Controllers
             {
                 var query = _repo.GetAllQueryable();
 
-                // Apply search filter
-                if (!string.IsNullOrEmpty(searchTerm))
+                if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
-                    var lowered = searchTerm.ToLower();
-                    query = query.Where(c =>
-                    c.User.FirstName.ToLower().Contains(lowered) ||
-                    c.User.Surname.ToLower().Contains(lowered) ||
-                        (!string.IsNullOrEmpty(c.Description) && c.Description.ToLower().Contains(lowered)) ||
-                        (c.Competence != null && (
-                            c.Competence.ProgrammingLanguages.Any(lang => lang.ToString().ToLower().Contains(lowered)) ||
-                            c.Competence.Qualifications.Any(q => q.ToString().ToLower().Contains(lowered)) ||
-                            c.Competence.CompetenceAreas.Any(a => a.ToString().ToLower().Contains(lowered)) ||
-                            c.Competence.CompetenceLevel.Any(lvl => lvl.ToString().ToLower().Contains(lowered))
+                    string loweredSearch = searchTerm.ToLowerInvariant();
+
+                    // Map user input to matching enum values for each enum type
+                    var matchedLanguages = Enum.GetValues(typeof(ProgrammingLanguage))
+                        .Cast<ProgrammingLanguage>()
+                        .Where(lang => EnumHelper.GetEnumDisplayName(lang).ToLowerInvariant().Contains(loweredSearch)
+                                    || lang.ToString().ToLowerInvariant().Contains(loweredSearch))
+                        .ToList();
+
+                    var matchedAreas = Enum.GetValues(typeof(CompetenceArea))
+                        .Cast<CompetenceArea>()
+                        .Where(area => EnumHelper.GetEnumDisplayName(area).ToLowerInvariant().Contains(loweredSearch)
+                                    || area.ToString().ToLowerInvariant().Contains(loweredSearch))
+                        .ToList();
+
+                    var matchedQualifications = Enum.GetValues(typeof(Qualification))
+                        .Cast<Qualification>()
+                        .Where(q => EnumHelper.GetEnumDisplayName(q).ToLowerInvariant().Contains(loweredSearch)
+                                 || q.ToString().ToLowerInvariant().Contains(loweredSearch))
+                        .ToList();
+
+                    query = query.Where(d =>
+                        d.User.FirstName.ToLower().Contains(loweredSearch) ||
+                        d.User.Surname.ToLower().Contains(loweredSearch) ||
+                        (d.Competence != null && (
+                            d.Competence.ProgrammingLanguages.Any(pl => matchedLanguages.Contains(pl)) ||
+                            d.Competence.CompetenceAreas.Any(ca => matchedAreas.Contains(ca)) ||
+                            d.Competence.Qualifications.Any(q => matchedQualifications.Contains(q))
                         ))
                     );
                 }
@@ -108,8 +127,12 @@ namespace Devella.API.Controllers
                 // Apply sorting
                 query = sortOption switch
                 {
-                    "Anställningsform" => query.OrderBy(c => c.WantedPosition),
-                    "Erfarenhet" => query.OrderByDescending(c => c.Experience),
+                    // Sort by Created date ascending
+                    "Äldsta först" => query.OrderBy(c => c.User.Created),
+
+                    // Sort by Created date descending
+                    "Nyaste först" => query.OrderByDescending(c => c.User.Created),
+
                     _ => query.OrderBy(c => c.Id)
                 };
 

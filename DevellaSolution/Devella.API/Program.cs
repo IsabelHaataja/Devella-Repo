@@ -101,6 +101,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IDeveloperRepository, DeveloperRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var allowedOrigins = builder.Configuration["AllowedOrigins"] ?? "https://localhost:7198"; // Default to localhost in development
 
