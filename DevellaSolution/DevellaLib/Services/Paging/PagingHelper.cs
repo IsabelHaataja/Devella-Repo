@@ -1,0 +1,23 @@
+﻿
+namespace DevellaLib.Services.Paging;
+
+public static class PagingHelper
+{
+    public static PagedResult<T> GetPaged<T>(this IQueryable<T> query,
+                     int page, int pageSize) where T : class
+    {
+        var result = new PagedResult<T>
+        {
+            CurrentPage = page,
+            PageSize = pageSize,
+            RowCount = query.Count()
+        };
+
+        result.PageCount = (int)Math.Ceiling((double)result.RowCount / pageSize);
+
+        var skip = (page - 1) * pageSize;
+        result.Results = query.Skip(skip).Take(pageSize).ToList();
+
+        return result;
+    }
+}

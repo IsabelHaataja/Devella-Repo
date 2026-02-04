@@ -1,0 +1,13 @@
+﻿.saved-profiles-container {
+    margin: 3rem 4rem;
+}
+.profile-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #4682b4a6;
+    color: white;
+}

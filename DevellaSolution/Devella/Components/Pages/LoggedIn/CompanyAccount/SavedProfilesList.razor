@@ -1,0 +1,49 @@
+﻿@page "/saved-profiles"
+@using Devella.Components.Layout.LoggedIn
+@using DevellaLib.DTOs.UserAccess
+@using Devella.Interfaces
+@inject ICompanyProvider CompanyProvider
+@layout AuthenticatedLayout
+
+<PageTitle>Sparade profiler</PageTitle>
+
+<section class="saved-profiles-container">
+    @if (savedProfiles == null || !savedProfiles.Any())
+    {
+        <p>Inga sparade profiler hittades.</p>
+    }
+    else
+    {
+        <h2>Sparade profiler</h2>
+        @foreach (var profile in savedProfiles)
+        {
+            <div class="profile-card">
+                <h3>@profile.FirstName @profile.Surname</h3>
+                <p>@profile.Description</p>
+                <p><strong>Erfarenhet:</strong> @profile.Experience år</p>
+                <p><strong>E-postadress:</strong> @profile.Email</p>
+            </div>
+        }
+    }
+   
+
+</section>
+
+@code {
+    private List<DeveloperProfileDTO> savedProfiles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSavedProfilesAsync();
+    }
+
+    private async Task LoadSavedProfilesAsync()
+    {
+        var fetchedProfiles = await CompanyProvider.GetSavedDevelopersAsync();
+
+        if (fetchedProfiles != null && fetchedProfiles.Any())
+        {
+            savedProfiles = fetchedProfiles.ToList();
+        }
+    }
+}

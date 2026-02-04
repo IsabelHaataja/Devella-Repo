@@ -1,7 +1,7 @@
 using Devella.API.Interfaces;
 using Devella.API.Repositories;
 using Devella.DataAccessLayer.Data;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.Models;
 using Devella.DataAccessLayer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +25,7 @@ var connectionString = builder.Configuration["ConnectionStrings:DefaultConnectio
                        builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
 
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -101,6 +101,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IDeveloperRepository, DeveloperRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var allowedOrigins = builder.Configuration["AllowedOrigins"] ?? "https://localhost:7198"; // Default to localhost in development
 

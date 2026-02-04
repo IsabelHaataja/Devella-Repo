@@ -1,8 +1,221 @@
-﻿@using Devella.Components.Layout.LoggedIn
+﻿@page "/explore"
+@using Devella.Components.Layout.LoggedIn
+@using DevellaLib.DTOs.UserAccess
+@using Devella.Interfaces
+@using Devella.Providers
+@using DevellaLib.Helpers
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @layout AuthenticatedLayout
-@page "/explore"
-<h3>Explore</h3>
+@inject IDeveloperProvider DeveloperProvider
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ICompanyProvider CompanyProvider
+
+<PageTitle>Utforska</PageTitle>
+
+<section id="explore-container">
+    <div class="search-filter-wrapper">
+        <div class="search-container">
+            <input type="text" class="form-control search-input" placeholder="Sök användare, kompetenser..." @bind="searchTerm" @oninput="FilterProfiles" />
+            <span class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+        </div>
+
+        <div class="filter-icon">
+            <i class="fa-solid fa-filter" @onclick="ToggleFilterDropdown"></i>
+            @if (showFilterDropdown)
+            {
+                <ul class="dropdown-menu show" @onclick:stopPropagation="true">
+                    @foreach (var option in sortOptions)
+                    {
+                        <li>
+                            <a class="dropdown-item @(selectedSortOption == option ? "active" : "")"
+                               @onclick="() => ApplySort(option)">
+                                @option
+                            </a>
+                        </li>
+                    }
+                    @if (!string.IsNullOrEmpty(selectedSortOption))
+                    {
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item text-danger" @onclick="ClearSortOption">
+                                Clear Filter
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+
+        @if (profiles != null)
+        {    
+            @foreach (var profile in profiles)
+            {
+                <div class="profile-card">
+                    <h3>@profile.FirstName @profile.Surname</h3>
+                    <p>@profile.Description</p>
+                    <p><strong>Erfarenhet:</strong> @profile.Experience år</p>
+                    <div>
+                        <strong>Färdigheter: </strong>
+                        @if (profile.Competence != null)
+                        {
+                            @foreach (var comp in profile.Competence.Qualifications)
+                            {
+                                <span class="badge bg-secondary">@EnumHelper.GetDisplayName(comp)</span>
+                            }
+                            @foreach (var area in profile.Competence.CompetenceAreas)
+                            {
+                                <span class="badge bg-secondary">@EnumHelper.GetDisplayName(area)</span>
+                            }
+                            @foreach (var lang in profile.Competence.ProgrammingLanguages)
+                            {
+                                <span class="badge bg-secondary">@EnumHelper.GetDisplayName(lang)</span>
+                            }
+                            @foreach (var level in profile.Competence.CompetenceLevel)
+                            {
+                                <span class="badge bg-secondary">@EnumHelper.GetDisplayName(level)</span>
+                            }
+                        }
+                    </div>
+                    <div class="profile-card-footer">
+                        <p><strong>E-postadress:</strong> @profile.Email</p>
+                        @if (role == "Client")
+                        {
+                            <button class="btn-save-profile" @onclick="() => SaveProfileAsync(profile.Id)"><i class="fa-solid fa-plus"></i></button>
+                        }
+                    </div>
+
+                </div>
+            }    
+        }
+        @if (totalPages >= 2)
+        {
+            <p class="d-flex justify-content-center mt-3">
+                Visar @(((currentPage - 1) * pageSize) + 1)-@Math.Min(currentPage * pageSize, totalRows) av @totalRows projekt
+            </p>
+        }
+
+        <div class="pagination-buttons d-flex justify-content-center mb-3">
+            <button class="btn btn-secondary me-2" @onclick="PreviousPage" disabled="@(currentPage == 1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <span>Sida @currentPage av @totalPages</span>
+            <button class="btn btn-secondary ms-2" @onclick="NextPage" disabled="@(currentPage == totalPages)"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+</section>
 
 @code {
+    private string role = string.Empty;
+    private bool isLoading = false;
+    private List<DeveloperProfileDTO> profiles = new();
+    private List<DeveloperProfileDTO> allProfiles = new();
 
+
+    // Pagination properties
+    private int currentPage = 1;
+    private int pageSize = 10;
+    private int totalPages = 0;
+    private int totalRows = 0;
+
+    // Sorting properties
+    private string searchTerm = "";
+    private bool showFilterDropdown = false;
+    private string selectedSortOption = "";
+    private List<string> sortOptions = new() { "Nyaste först", "Äldsta först" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProfilesAsync();
+        var authState = await ((CustomAuthStateProvider)AuthStateProvider).GetAuthenticationStateAsync();
+        var user = authState.User;
+        role = user?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+    }
+
+    private async Task LoadProfilesAsync()
+    {       
+        isLoading = true;
+
+        try
+        {
+            var pagedResult = await DeveloperProvider.GetAllPagedProfilesAsync(currentPage, pageSize, searchTerm, selectedSortOption);
+            allProfiles = pagedResult.Results.ToList();
+            profiles = allProfiles; // Store all profiles for filtering
+            totalPages = pagedResult.PageCount;
+            totalRows = pagedResult.RowCount;          
+        }
+        catch (Exception ex)
+        {
+            isLoading = false;
+            Console.WriteLine($"Error loading profiles: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    // Filtering
+    private void ToggleFilterDropdown()
+    {
+        showFilterDropdown = !showFilterDropdown;
+    }
+
+    private async Task ApplySortOption(string option)
+    {
+        selectedSortOption = option;
+        await LoadProfilesAsync();
+    }
+
+    private async Task ApplySort(string option)
+    {
+        selectedSortOption = option;
+        showFilterDropdown = false; // Optional: auto-close dropdown
+        currentPage = 1; // Optional: Reset page
+        await LoadProfilesAsync();
+        StateHasChanged(); // Ensure UI updates
+    }
+
+
+    private async Task ClearSortOption()
+    {
+        selectedSortOption = "";
+        showFilterDropdown = false;
+        currentPage = 1;
+        await LoadProfilesAsync();
+    }
+    private async Task FilterProfiles(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? "";
+        currentPage = 1;
+        await LoadProfilesAsync();
+    }
+
+    // Paging
+    private async Task NextPage()
+    {
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            await LoadProfilesAsync();
+        }
+    }
+
+    private async Task PreviousPage()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            await LoadProfilesAsync();
+        }
+    }
+
+    private async Task SaveProfileAsync(int profileId)
+    {
+        Console.WriteLine($"Attempting to save profile with ID: {profileId}");
+        await CompanyProvider.SaveDeveloperToListAsync(profileId);
+    }
 }

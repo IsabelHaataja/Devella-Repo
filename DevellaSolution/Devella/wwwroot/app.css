@@ -1,10 +1,16 @@
 /* General */
 html, body {
-    font-family: 'Sansation', sans-serif;    
+    font-family: 'Sansation', sans-serif;
+    margin: 0;
+    height: 100%;
+    /*    padding: 0;
+    scroll-behavior: smooth;*/
+    /*    overflow-x: hidden;*/
 }
-body {
-    overflow-x: hidden;
-}
+
+/*body {
+    height: 100%;
+}*/
 
 p {
     font-family: 'Lato', sans-serif;
@@ -12,6 +18,12 @@ p {
 
 a, .btn-link {
     color: #006bb7;
+}
+
+.content {
+    padding-top: 1.1rem;
+    background-color: whitesmoke;
+    flex: 1 0 auto;
 }
 
 /* Buttons */
@@ -35,6 +47,14 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.btn-primary-theme:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border-color: #aaa;
+    opacity: 0.6;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -48,9 +68,7 @@ a, .btn-link {
 .navbar-link:hover {
     text-decoration: underline;
 }
-.content {
-    padding-top: 1.1rem;
-}
+
 
 h1:focus {
     outline: none;

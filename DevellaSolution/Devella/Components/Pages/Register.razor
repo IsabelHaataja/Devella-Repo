@@ -6,23 +6,28 @@
     <div class="registrer-title">
         <h2>Vad kul att du vill gå med i Devella!</h2>
 
-        <h5>Vänligen välj typ av registrering - utvecklare eller företag.</h5>
+        <h5>Vänligen välj typ av registrering</h5>
     </div>
 
     
     <div class="registration-btns">
-        <button @onclick="OnDeveloperButtonClick">Företag</button>
-        <button @onclick="OnCompanyButtonClick">Utvecklare</button>
+        <button class="btn-primary-theme w-25" @onclick="OnDeveloperButtonClick">Utvecklare</button>
+        <button class="btn-primary-theme w-25" @onclick="OnCompanyButtonClick">Företag</button>
     </div>
 
 
     @if (isDeveloper)
     {
-        <RegistrationFormDeveloperUser />
+        <div class="form-wrapper">
+            <RegistrationFormDeveloperUser OnCancel="CancelForm" />
+        </div>
+
     }
     @if (isCompany)
     {
-
+        <div class="form-wrapper">
+            <RegistrationFormCompanyUser OnCancel="CancelForm" />
+        </div>
     }
 
 </section>
@@ -41,5 +46,11 @@
     {
         isCompany = true;
         isDeveloper = false;       
+    }
+
+    private void CancelForm()
+    {
+        isDeveloper = false;
+        isCompany = false;
     }
 }

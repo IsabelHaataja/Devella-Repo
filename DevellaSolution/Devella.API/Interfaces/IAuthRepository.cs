@@ -1,4 +1,4 @@
-﻿using Devella.DataAccessLayer.Models;
+﻿using DevellaLib.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Devella.API.Interfaces

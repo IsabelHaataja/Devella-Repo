@@ -1,5 +1,3 @@
-using Devella.API.Interfaces;
-using Devella.API.Services;
 using Devella.Components;
 using Devella.Interfaces;
 using Devella.Providers;
@@ -19,6 +17,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthStateProvider>());
 builder.Services.AddHttpClient<IDeveloperProvider, DeveloperProvider>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7153/");
+});
+builder.Services.AddHttpClient<ICompanyProvider, CompanyProvider>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7153/");
 });
