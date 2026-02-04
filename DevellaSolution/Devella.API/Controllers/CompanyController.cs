@@ -1,10 +1,8 @@
 ﻿using Devella.API.Interfaces;
-using Devella.API.Repositories;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Mappers.Developer;
+using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Mappers.Developer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Devella.API.Controllers

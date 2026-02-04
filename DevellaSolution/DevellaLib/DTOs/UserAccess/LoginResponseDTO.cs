@@ -1,4 +1,5 @@
-﻿namespace Devella.DataAccessLayer.DTOs.UserAccess;
+﻿
+namespace DevellaLib.DTOs.UserAccess;
 
 public class LoginResponseDTO
 {

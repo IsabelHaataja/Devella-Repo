@@ -1,8 +1,8 @@
 ﻿
-using Devella.DataAccessLayer.Enums;
+using DevellaLib.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Devella.DataAccessLayer.DTOs.UserAccess;
+namespace DevellaLib.DTOs.UserAccess;
 
 public class RegisterDTO
 {

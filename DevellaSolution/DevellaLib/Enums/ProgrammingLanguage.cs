@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace Devella.DataAccessLayer.Enums;
+namespace DevellaLib.Enums;
 
 public enum ProgrammingLanguage
 {

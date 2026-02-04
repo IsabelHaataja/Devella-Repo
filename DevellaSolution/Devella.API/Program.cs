@@ -1,7 +1,7 @@
 using Devella.API.Interfaces;
 using Devella.API.Repositories;
 using Devella.DataAccessLayer.Data;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.Models;
 using Devella.DataAccessLayer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

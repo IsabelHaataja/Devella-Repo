@@ -1,10 +1,8 @@
 ﻿using Devella.Interfaces;
 using System.Net.Http.Headers;
-using System.Net.Http;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Newtonsoft.Json;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using System.Reflection.Metadata.Ecma335;
+using DevellaLib.DTOs.UserAccess;
 
 namespace Devella.Providers
 {

@@ -1,7 +1,7 @@
-﻿using Devella.API.Interfaces;
+﻿using Devella.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Devella.API.Services
+namespace Devella.Providers
 {
     public class AuthService : IAuthService
     {

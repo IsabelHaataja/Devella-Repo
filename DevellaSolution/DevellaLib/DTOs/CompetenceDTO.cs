@@ -1,6 +1,7 @@
-﻿using Devella.DataAccessLayer.Enums;
+﻿
+using DevellaLib.Enums;
 
-namespace Devella.DataAccessLayer.DTOs;
+namespace DevellaLib.DTOs;
 
 public class CompetenceDTO
 {

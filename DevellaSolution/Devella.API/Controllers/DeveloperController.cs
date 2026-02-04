@@ -1,7 +1,7 @@
 ﻿using Devella.API.Interfaces;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Enums;
-using Devella.DataAccessLayer.Mappers.Developer;
+using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Enums;
+using DevellaLib.Mappers.Developer;
 using DevellaLib.Helpers;
 using DevellaLib.Services.Paging;
 using Microsoft.AspNetCore.Authorization;

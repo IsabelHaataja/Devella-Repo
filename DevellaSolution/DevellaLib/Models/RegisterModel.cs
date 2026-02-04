@@ -1,7 +1,6 @@
-﻿
-using Devella.DataAccessLayer.Enums;
+﻿using DevellaLib.Enums;
 
-namespace Devella.DataAccessLayer.Models;
+namespace DevellaLib.Models;
 
 public class RegisterModel
 {

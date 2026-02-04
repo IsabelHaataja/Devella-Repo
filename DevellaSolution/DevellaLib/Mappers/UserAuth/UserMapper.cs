@@ -1,9 +1,9 @@
-﻿
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Models;
+﻿using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Models;
 
-namespace Devella.DataAccessLayer.Mappers.UserAuth;
-public static class UserMappers
+namespace DevellaLib.Mappers.UserAuth;
+
+public static class UserMapper
 {
     public static User ToUser(this RegisterDTO dto)
     {

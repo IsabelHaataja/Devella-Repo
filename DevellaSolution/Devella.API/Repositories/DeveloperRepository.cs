@@ -1,8 +1,8 @@
 ﻿using Devella.API.Interfaces;
 using Devella.DataAccessLayer.Data;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Mappers.Developer;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Mappers.Developer;
+using DevellaLib.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Devella.API.Repositories;

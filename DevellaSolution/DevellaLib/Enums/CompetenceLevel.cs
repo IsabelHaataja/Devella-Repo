@@ -1,5 +1,5 @@
 ﻿
-namespace Devella.DataAccessLayer.Enums;
+namespace DevellaLib.Enums;
 
 public enum CompetenceLevel
 {

@@ -1,9 +1,9 @@
 ﻿
-using Devella.DataAccessLayer.DTOs;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.DTOs;
+using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Models;
 
-namespace Devella.DataAccessLayer.Mappers.Developer;
+namespace DevellaLib.Mappers.Developer;
 
 public static class DeveloperMapper
 {

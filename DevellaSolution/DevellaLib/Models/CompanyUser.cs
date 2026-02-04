@@ -1,5 +1,4 @@
-﻿
-namespace Devella.DataAccessLayer.Models;
+﻿namespace DevellaLib.Models;
 
 public class CompanyUser
 {

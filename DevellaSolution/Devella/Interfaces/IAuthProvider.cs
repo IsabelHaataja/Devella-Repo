@@ -1,4 +1,4 @@
-﻿using Devella.DataAccessLayer.DTOs.UserAccess;
+﻿using DevellaLib.DTOs.UserAccess;
 
 namespace Devella.Interfaces;
 

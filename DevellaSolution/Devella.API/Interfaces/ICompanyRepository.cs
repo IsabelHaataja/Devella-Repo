@@ -1,4 +1,4 @@
-﻿using Devella.DataAccessLayer.Models;
+﻿using DevellaLib.Models;
 
 namespace Devella.API.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿using Devella.DataAccessLayer.DTOs.UserAccess;
+﻿using DevellaLib.DTOs.UserAccess;
 using DevellaLib.Services.Paging;
 
 namespace Devella.Interfaces;

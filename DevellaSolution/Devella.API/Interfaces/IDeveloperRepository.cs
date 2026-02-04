@@ -1,5 +1,5 @@
-﻿using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Models;
+﻿using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Models;
 
 namespace Devella.API.Interfaces;
 

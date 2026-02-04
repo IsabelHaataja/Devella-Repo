@@ -1,8 +1,7 @@
 ﻿
-using Devella.DataAccessLayer.Enums;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.Enums;
 
-namespace Devella.DataAccessLayer.DTOs.UserAccess;
+namespace DevellaLib.DTOs.UserAccess;
 
 public class DeveloperProfileDTO
 {

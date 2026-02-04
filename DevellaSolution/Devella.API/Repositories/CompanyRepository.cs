@@ -1,6 +1,6 @@
 ﻿using Devella.API.Interfaces;
 using Devella.DataAccessLayer.Data;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Devella.API.Repositories;

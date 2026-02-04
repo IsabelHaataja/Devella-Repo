@@ -1,11 +1,11 @@
 ﻿using Devella.API.Interfaces;
-using Devella.DataAccessLayer.DTOs.UserAccess;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.DTOs.UserAccess;
+using DevellaLib.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Devella.DataAccessLayer.Mappers.UserAuth;
+using DevellaLib.Mappers.UserAuth;
 using Devella.API.Repositories;
-using Devella.DataAccessLayer.Enums;
+using DevellaLib.Enums;
 
 namespace Devella.API.Controllers;
     [ApiController]

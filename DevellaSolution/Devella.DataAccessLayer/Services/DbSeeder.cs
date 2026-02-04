@@ -1,6 +1,6 @@
 ﻿using Devella.DataAccessLayer.Data;
-using Devella.DataAccessLayer.Enums;
-using Devella.DataAccessLayer.Models;
+using DevellaLib.Enums;
+using DevellaLib.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 

@@ -1,8 +1,7 @@
-﻿using Devella.DataAccessLayer.DTOs.UserAccess;
+﻿using DevellaLib.DTOs.UserAccess;
 using Devella.Interfaces;
 using DevellaLib.Services.Paging;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

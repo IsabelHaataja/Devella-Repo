@@ -1,4 +1,4 @@
-﻿using Devella.DataAccessLayer.DTOs.UserAccess;
+﻿using DevellaLib.DTOs.UserAccess;
 using Devella.Interfaces;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using System.Net.Http;
